@@ -17,7 +17,6 @@ st.title("Minimal Gemini Chatbot")
 ### Generation parameters
 temperature = st.sidebar.slider("Temperature", 0.0, 2.0, 1.0)
 max_tokens = st.sidebar.slider("Max output tokens", 50, 2000, 500)
-isHappy = st.checkbox("Should I be happy?")
 
 ### Memory: Streamlit reruns this script on every interaction, so the chat history lives in st.session_state
 if "messages" not in st.session_state:
@@ -37,7 +36,7 @@ if prompt := st.chat_input("Say something"):
     response = client.models.generate_content(
         model=MODEL,
         contents=st.session_state.messages,
-        config=types.GenerateContentConfig(temperature=temperature, max_output_tokens=max_tokens,system_instruction="Be happy!" if isHappy else "Be sad!",),
+        config=types.GenerateContentConfig(temperature=temperature, max_output_tokens=max_tokens),
     )
 
     st.session_state.messages.append({"role": "model", "parts": [{"text": response.text}]})
